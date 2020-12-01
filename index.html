@@ -6,6 +6,36 @@
         <title>Book Library</title>
     </head>
     <body>
+        <div>
+            
+        </div>
+        <div class="form-popup" id="new-book-form">
+            <form action="#" class="form-container">
+                <h1>New Book:</h1>
+
+                <label for="title"><b>Title</b></label>
+                <input id="title-id" type="text" name="title" placeholder="Title of the book" required>
+
+                <label for="author"><b>Author</b></label>
+                <input id="author-id" type="text" name="author" placeholder="Author of the book" required>
+
+                <label for="pages"><b>Pages</b></label>
+                <input id="pages-id" type="text" name="pages" placeholder="Number of pages" required>
+
+                <label for="comment"><b>Comment</b></label>
+                <input id="comment-id" type="text" name="comment" placeholder="Comment about the book" required>
+
+                <!-- Rounded switch -->
+                <label for="read"><b>Have you read the book yet?</b></label>
+                <label class="switch">
+                    <input id="read-id" type="checkbox" name="read">
+                    <span class="slider"></span>
+                </label>
+                
+                <button type="button" class="btn">Accept</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+            </form>
+        </div>
         <script type="text/javascript" src="script.js"></script>
     </body>
 </html>
