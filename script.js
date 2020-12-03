@@ -36,24 +36,23 @@ const commentHeader = document.createElement('th');
 const statusHeader = document.createElement('th');
 
 function createTableStructure() {
-    if (myLibrary.length > 0) {
-        bookTable.setAttribute('class', 'book-table');
-        titleHeader.textContent = 'Title';        
-        authorHeader.textContent = 'Author';        
-        pagesHeader.textContent = 'Pages'; 
-        pagesHeader.style.width = '40px';       
-        commentHeader.textContent = 'Comment';        
-        statusHeader.textContent = 'Read';
-        statusHeader.style.width = '40px';
-        // Add everything to the DOM
-        headerRow.appendChild(titleHeader);
-        headerRow.appendChild(authorHeader);
-        headerRow.appendChild(pagesHeader);
-        headerRow.appendChild(commentHeader);
-        headerRow.appendChild(statusHeader);
-        bookTable.appendChild(headerRow);
-        document.body.appendChild(bookTable);
-    }
+    bookTable.setAttribute('class', 'book-table');
+    titleHeader.textContent = 'Title';        
+    authorHeader.textContent = 'Author';        
+    pagesHeader.textContent = 'Pages'; 
+    pagesHeader.style.width = '40px';       
+    commentHeader.textContent = 'Comment';        
+    statusHeader.textContent = 'Read';
+    statusHeader.style.width = '40px';
+    // Add everything to the DOM
+    headerRow.appendChild(titleHeader);
+    headerRow.appendChild(authorHeader);
+    headerRow.appendChild(pagesHeader);
+    headerRow.appendChild(commentHeader);
+    headerRow.appendChild(statusHeader);
+    bookTable.appendChild(headerRow);
+    document.body.appendChild(bookTable);
+
 }
 createTableStructure();
 
@@ -96,6 +95,7 @@ function createTableEntry(book, dataAttribute) {
     })
     
     read.appendChild(checkbox);
+    
     read.style.textAlign = 'center';
 
     newRow.appendChild(title);
@@ -184,15 +184,17 @@ deleteBookBtn.addEventListener('click', () => {
 })
 
 function addEvent(event) {
-    event.target.parentElement.remove();
-    const dataAttribute = event.target.parentElement.className.split('-')
-    myLibrary.splice(dataAttribute[dataAttribute.length - 1], 1);
-    // Update data atribute 
-    const allDataAttributes = document.querySelectorAll('tr');
-    for (let i = 1; i < allDataAttributes.length; i++) {
-        const newAttr = 'data-book-' + (i - 1);
-        allDataAttributes[i].setAttribute('class', newAttr);
-        allDataAttributes[i].removeAttribute('id');
+    if (event.target.parentElement.id == 'delete-row') {
+        event.target.parentElement.remove();
+        const dataAttribute = event.target.parentElement.className.split('-')
+        myLibrary.splice(dataAttribute[dataAttribute.length - 1], 1);
+        // Update data atribute 
+        const allDataAttributes = document.querySelectorAll('tr');
+        for (let i = 1; i < allDataAttributes.length; i++) {
+            const newAttr = 'data-book-' + (i - 1);
+            allDataAttributes[i].setAttribute('class', newAttr);
+            allDataAttributes[i].removeAttribute('id');
+        }
     }
     mainTitle.textContent = 'Your library';
     bookTable.removeEventListener('click', addEvent);
