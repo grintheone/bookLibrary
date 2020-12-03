@@ -1,16 +1,16 @@
 const myLibrary = []
 
-addBookToLibrary('Harry Potter', 'J.R. Rowling', 500, 'An intresting story about the boy who lived', true)
-addBookToLibrary('Lord of the Ring', 'Talking', 700, 'A story where heroes go through many obstacles to destroy the ring', false)
-addBookToLibrary('Matrix', 'Brothers Watchowski', 800, 'The series features a cyberpunk story of the technological fall of mankind, in which the creation of artificial intelligence led the way to a race of self-aware machines that imprisoned mankind in a virtual reality system—the Matrix—to be farmed as a power source.', true)
+
+// Header container 
+const header = document.createElement('div');
+header.setAttribute('class', 'header');
+document.body.appendChild(header);
+
 
 // Create title and its container
-const mainTitleContainer = document.createElement('div');
-mainTitleContainer.setAttribute('class', 'main-title-container');
 const mainTitle = document.createElement('h1');
 mainTitle.textContent = 'Your library';
-mainTitleContainer.appendChild(mainTitle);
-document.body.appendChild(mainTitleContainer);
+header.appendChild(mainTitle);
 
 // Create buttons for adding and deleting books
 const btnsContainer = document.createElement('div');
@@ -24,7 +24,7 @@ deleteAllBooks.textContent = 'Clear the library';
 btnsContainer.appendChild(addBookBtn);
 btnsContainer.appendChild(deleteBookBtn);
 btnsContainer.appendChild(deleteAllBooks); 
-document.body.appendChild(btnsContainer);
+header.appendChild(btnsContainer);
 
 // Create a table for storing books
 const bookTable = document.createElement('table');
@@ -34,14 +34,17 @@ const authorHeader = document.createElement('th');
 const pagesHeader = document.createElement('th');
 const commentHeader = document.createElement('th');
 const statusHeader = document.createElement('th');
+
 function createTableStructure() {
     if (myLibrary.length > 0) {
         bookTable.setAttribute('class', 'book-table');
         titleHeader.textContent = 'Title';        
         authorHeader.textContent = 'Author';        
-        pagesHeader.textContent = 'Pages';        
+        pagesHeader.textContent = 'Pages'; 
+        pagesHeader.style.width = '40px';       
         commentHeader.textContent = 'Comment';        
         statusHeader.textContent = 'Read';
+        statusHeader.style.width = '40px';
         // Add everything to the DOM
         headerRow.appendChild(titleHeader);
         headerRow.appendChild(authorHeader);
@@ -72,10 +75,27 @@ function createTableEntry(book, dataAttribute) {
     pages.style.textAlign = 'center';
 
     const comment = document.createElement('td');
+    comment.setAttribute('class', 'comment');
     comment.textContent = book.comment;
 
+    // Everything for a checkbox
     const read = document.createElement('td');
-    read.textContent = book.read;
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('class', 'checkbox');
+
+    checkbox.type = 'checkbox';
+    if (book.read == true) {
+        checkbox.checked = true;
+    } else {
+        checkbox.checked = false;
+    }
+
+    checkbox.addEventListener('change', (e) => {
+        const bookId = e.srcElement.parentElement.parentElement.className.split('-');
+        myLibrary[bookId[bookId.length - 1]].updateStatus();
+    })
+    
+    read.appendChild(checkbox);
     read.style.textAlign = 'center';
 
     newRow.appendChild(title);
@@ -96,8 +116,6 @@ function displayBooks() {
 displayBooks();
 
 
-
-
 // Book constructor
 function Book(title, author, pages, comment, read) {
     this.title = title
@@ -106,6 +124,15 @@ function Book(title, author, pages, comment, read) {
     this.comment = comment
     this.read = read
 }
+
+Book.prototype.updateStatus = function() {
+    if (this.read == true) {
+        this.read = false;
+    } else {
+        this.read = true;
+    }
+}
+
 
 function addBookToLibrary(title, author, pages, comment, read) {
     const book = new Book(title, author, pages, comment, read);
@@ -148,7 +175,11 @@ acceptBtn.addEventListener('click', () => {
 
 // Remove book from the library
 deleteBookBtn.addEventListener('click', () => {
-    bookTable.style.border = '3px solid yellow';
+    mainTitle.textContent = 'Click on the book'
+    const rows = document.querySelectorAll('tr');
+    for (let row = 1; row < rows.length; row++) {
+        rows[row].setAttribute('id', 'delete-row');
+    }
     bookTable.addEventListener('click', addEvent);
 })
 
@@ -161,9 +192,9 @@ function addEvent(event) {
     for (let i = 1; i < allDataAttributes.length; i++) {
         const newAttr = 'data-book-' + (i - 1);
         allDataAttributes[i].setAttribute('class', newAttr);
+        allDataAttributes[i].removeAttribute('id');
     }
-    console.log(myLibrary);
-    bookTable.style.border = '1px solid white';
+    mainTitle.textContent = 'Your library';
     bookTable.removeEventListener('click', addEvent);
 }
 
@@ -181,3 +212,4 @@ deleteAllBooks.addEventListener('click', () => {
         myLibrary.splice(0, myLibrary.length);
     }
 })
+
