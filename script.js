@@ -191,6 +191,7 @@ deleteBookBtn.addEventListener('click', () => {
     for (let row = 1; row < rows.length; row++) {
         rows[row].setAttribute('id', 'delete-row');
     }
+    saveDataLocal();
     bookTable.addEventListener('click', addEvent);
 })
 
@@ -223,6 +224,7 @@ deleteAllBooks.addEventListener('click', () => {
         }
         // Clear the array
         myLibrary.splice(0, myLibrary.length);
+        saveDataLocal();
     }
 })
 
