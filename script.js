@@ -192,6 +192,7 @@ deleteBookBtn.addEventListener('click', () => {
         rows[row].setAttribute('id', 'delete-row');
     }
     bookTable.addEventListener('click', addEvent);
+    saveDataLocal();
 })
 
 function addEvent(event) {
@@ -199,7 +200,6 @@ function addEvent(event) {
         event.target.parentElement.remove();
         const dataAttribute = event.target.parentElement.className.split('-')
         myLibrary.splice(dataAttribute[dataAttribute.length - 1], 1);
-        saveDataLocal();
         // Update data atribute 
         const allDataAttributes = document.querySelectorAll('tr');
         for (let i = 1; i < allDataAttributes.length; i++) {
