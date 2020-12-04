@@ -192,7 +192,6 @@ deleteBookBtn.addEventListener('click', () => {
         rows[row].setAttribute('id', 'delete-row');
     }
     bookTable.addEventListener('click', addEvent);
-    saveDataLocal();
 })
 
 function addEvent(event) {
@@ -210,6 +209,7 @@ function addEvent(event) {
     }
     mainTitle.textContent = 'Your library';
     bookTable.removeEventListener('click', addEvent);
+    saveDataLocal();
 }
 
 // Clear the library completely
