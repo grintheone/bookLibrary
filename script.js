@@ -1,11 +1,23 @@
-const myLibrary = []
+let myLibrary = []
 
+// Save Library data to Local Storage
+function saveDataLocal() {
+    const libraryObj = JSON.stringify(myLibrary);
+    localStorage.setItem('data', libraryObj);
+}
+
+function retrieveData() {
+    if (localStorage.length > 0) {
+        myLibrary = JSON.parse(localStorage.getItem('data'));
+    }
+}
+
+retrieveData();
 
 // Header container 
 const header = document.createElement('div');
 header.setAttribute('class', 'header');
 document.body.appendChild(header);
-
 
 // Create title and its container
 const mainTitle = document.createElement('h1');
@@ -54,6 +66,7 @@ function createTableStructure() {
     document.body.appendChild(bookTable);
 
 }
+
 createTableStructure();
 
 function createTableEntry(book, dataAttribute) {
@@ -95,7 +108,6 @@ function createTableEntry(book, dataAttribute) {
     })
     
     read.appendChild(checkbox);
-    
     read.style.textAlign = 'center';
 
     newRow.appendChild(title);
@@ -115,7 +127,6 @@ function displayBooks() {
 
 displayBooks();
 
-
 // Book constructor
 function Book(title, author, pages, comment, read) {
     this.title = title
@@ -133,10 +144,10 @@ Book.prototype.updateStatus = function() {
     }
 }
 
-
 function addBookToLibrary(title, author, pages, comment, read) {
     const book = new Book(title, author, pages, comment, read);
     myLibrary.push(book);
+    saveDataLocal();
 }
 
 // Form functions
