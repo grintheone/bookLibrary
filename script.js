@@ -127,20 +127,23 @@ function displayBooks() {
 
 displayBooks();
 
-// Book constructor
-function Book(title, author, pages, comment, read) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.comment = comment
-    this.read = read
-}
 
-Book.prototype.updateStatus = function() {
-    if (this.read == true) {
-        this.read = false;
-    } else {
-        this.read = true;
+// Updated book class
+class Book {
+    constructor(title, author, pages, comment, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.comment = comment;
+        this.read = read;
+    }
+
+    updateStatus() {
+        if (this.read == true) {
+            this.read = false;
+        } else {
+            this.read = true;
+        }
     }
 }
 
