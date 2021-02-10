@@ -175,17 +175,51 @@ document.getElementById('read-id').addEventListener('change', (e) => {
     
 const acceptBtn = document.querySelector('.btn');
 acceptBtn.addEventListener('click', () => {
-    
-    const title = document.getElementById('title-id').value;
-    const author = document.getElementById('author-id').value;
-    const pages = document.getElementById('pages-id').value;
-    const comment = document.getElementById('comment-id').value;
-    
-    addBookToLibrary(title, author, pages, comment, read);
-    read = false;
-    closeForm();
-    createTableEntry(myLibrary[myLibrary.length-1], myLibrary.length-1);
+    if (checkValues()) {
+        const title = document.getElementById('title-id').value;
+        const author = document.getElementById('author-id').value;
+        const pages = document.getElementById('pages-id').value;
+        const comment = document.getElementById('comment-id').value;
+        
+        addBookToLibrary(title, author, pages, comment, read);
+        read = false;
+        closeForm();
+        createTableEntry(myLibrary[myLibrary.length-1], myLibrary.length-1);
+    } 
 })
+
+function checkValues() {
+    const title = document.getElementById('title-id');
+    const author = document.getElementById('author-id');
+    const pages = document.getElementById('pages-id');
+    if (!title.checkValidity() || !author.checkValidity() || !pages.checkValidity()) {
+        alert('Title, author and pages are required fields.')
+        if (!title.checkValidity()) {
+            title.style.border = '2px solid rgb(243, 102, 102)';
+        } else {
+            title.style.border = 'none';        
+        }
+        if (!author.checkValidity()) {
+            author.style.border = '2px solid rgb(243, 102, 102)';
+        } else {
+            author.style.border = 'none';
+        }
+        if (!pages.checkValidity()) {
+            pages.style.border = '2px solid rgb(243, 102, 102)';
+        } else {
+            pages.style.border = 'none';
+        }
+        return false;
+    }
+    if (!isFinite(pages.value)) {
+        alert('Pages field must be a number')
+        pages.style.border = '2px solid rgb(243, 102, 102)';
+        return false
+    } else {
+        pages.style.border = 'none';
+    }
+    return true
+}
 
 // Remove book from the library
 deleteBookBtn.addEventListener('click', () => {
